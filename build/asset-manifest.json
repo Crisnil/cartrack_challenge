@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5739ad41.chunk.css",
+    "main.js": "/static/js/main.6abc7ad9.chunk.js",
+    "main.js.map": "/static/js/main.6abc7ad9.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.01fb6de2.js",
+    "runtime-main.js.map": "/static/js/runtime-main.01fb6de2.js.map",
+    "static/js/2.2fc77fb4.chunk.js": "/static/js/2.2fc77fb4.chunk.js",
+    "static/js/2.2fc77fb4.chunk.js.map": "/static/js/2.2fc77fb4.chunk.js.map",
+    "static/js/3.042b0d76.chunk.js": "/static/js/3.042b0d76.chunk.js",
+    "static/js/3.042b0d76.chunk.js.map": "/static/js/3.042b0d76.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.5739ad41.chunk.css.map": "/static/css/main.5739ad41.chunk.css.map",
+    "static/js/2.2fc77fb4.chunk.js.LICENSE.txt": "/static/js/2.2fc77fb4.chunk.js.LICENSE.txt",
+    "static/media/Image.285e63a3.jpg": "/static/media/Image.285e63a3.jpg",
+    "static/media/aenean-vulputate.d92a424c.jpg": "/static/media/aenean-vulputate.d92a424c.jpg",
+    "static/media/kilimanjaro.c48d9429.png": "/static/media/kilimanjaro.c48d9429.png",
+    "static/media/logo.6ce24c58.svg": "/static/media/logo.6ce24c58.svg",
+    "static/media/lorem-ipseum.b0a2918b.jpg": "/static/media/lorem-ipseum.b0a2918b.jpg",
+    "static/media/mont-blanc.ce0e08b4.jpg": "/static/media/mont-blanc.ce0e08b4.jpg",
+    "static/media/northern-pakistan.8880cb82.jpg": "/static/media/northern-pakistan.8880cb82.jpg",
+    "static/media/olympus-greece.acd789f1.jpg": "/static/media/olympus-greece.acd789f1.jpg",
+    "static/media/patagonia.681c6c1f.jpg": "/static/media/patagonia.681c6c1f.jpg",
+    "static/media/white.d65dca01.svg": "/static/media/white.d65dca01.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.01fb6de2.js",
+    "static/js/2.2fc77fb4.chunk.js",
+    "static/css/main.5739ad41.chunk.css",
+    "static/js/main.6abc7ad9.chunk.js"
+  ]
+}
