@@ -2,35 +2,18 @@ import Container from "@mui/material/Container";
 import React, {useEffect, useState} from "react";
 import Paper from "@mui/material/Paper";
 
-
-import logo from './assets/white.svg';
-import kilimanjaro from './assets/kilimanjaro.png';
-import aeneanvulputate from './assets/aenean-vulputate.jpg';
-import loremipseum from './assets/lorem-ipseum.jpg';
-import montblanc from './assets/mont-blanc.jpg';
-import northernpakistan from './assets/northern-pakistan.jpg';
-import olympusgreece from './assets/olympus-greece.jpg';
-import patagonia from './assets/patagonia.jpg';
-import himalayas from './assets/Image.jpg';
-
-import greenBig from './assets/bg/Polygon3.svg';
-import purple from './assets/bg/Polygon2.svg';
-import gray from './assets/bg/Polygon4.svg';
-import greensmall from './assets/bg/Polygon5.svg';
-import graysmall from './assets/bg/Polygon6.svg';
 import Box from "@mui/material/Box";
-import _ from 'lodash'
 import {makeStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from "@material-ui/core/InputAdornment";
-import Input from "@material-ui/core/Input";
 import { useHistory } from "react-router-dom";
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
 
 const useStyles = makeStyles(theme =>({
     root:{
@@ -49,7 +32,6 @@ const useStyles = makeStyles(theme =>({
         justifyContent:'flex-start',
         alignItems:'flex-start',
         overflow:'hidden',
-        backgroundImage: `url(${greensmall}),url(${graysmall}),url(${greenBig}),url(${purple}),url(${gray})`,
         backgroundRepeat:  'no-repeat,no-repeat',
         backgroundPosition:'0% 75%,27% 20%,90% 100%,73% 65%,100% 20%',
         [theme.breakpoints.between('md','lg')]: {
@@ -157,14 +139,9 @@ const useStyles = makeStyles(theme =>({
         textTransform:'none',
         fontSize:16
     },
-    page:{
-        fontSize:14
-    },
-    pageActive:{
-        color:'#3852F7',
-        fontSize:14,
-        border: '1px solid #3852F7'
-    },
+    footerSection:{
+        marginTop:20
+    }, 
     footWrapper:{
         backgroundColor:'#3C3C3C !important',
         height:120,
@@ -204,14 +181,62 @@ const useStyles = makeStyles(theme =>({
 }));
 
 function Listing(props) {
-
-    console.log(props)
     const classes = useStyles();
     let history = useHistory();
-    const [state,setState]=useState({data:[],loading:false,filters:"himalayas"});
+    const [state,setState]= useState({ data:[], loading:false,queries:`users`});
+    const [filter,setFilters]= useState("");
+    
+    useEffect (
+        ()=>{
+            fetch(`https://jsonplaceholder.typicode.com/users`
+                ,{
+                    headers : {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                }
+            )
+                .then(function(response){
+                    return response.json();
+                })
+                .then(function(myJson) {
+                    console.log(myJson);
+                    setState({data:myJson})
+                });
+        },
+        []
+    )
 
-    const getData=()=>{
-        fetch('data.json'
+
+    function goto(item){
+        return()=> {
+            console.log("te",item)
+            history.push(`/${item.slug}`)
+        }
+    }
+
+    function searchTeam (d){
+        console.log(d.target.value)
+
+        setFilters(d.target.value);
+
+    }
+
+    function goSearch(){
+        let queryString = ``;
+
+        if(filter === ""){
+            queryString = `users`    
+        }
+        else if(filter.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+
+           queryString = `users?email=${filter}`              
+        }
+        else{
+            queryString = `users?name=${filter}`   
+        }
+
+        fetch(`https://jsonplaceholder.typicode.com/${queryString}`
             ,{
                 headers : {
                     'Content-Type': 'application/json',
@@ -224,43 +249,43 @@ function Listing(props) {
             })
             .then(function(myJson) {
                 console.log(myJson);
-                setState({...state,data:myJson})
+                setState({data:myJson})
             });
+    } 
+
+    let  childItems = null;
+    if(state.data.length > 0){
+    childItems = state.data.map((item,x)=>{
+
+            return(
+                <Grid item xs={6} sm={4} md={3} key={x}>
+                    <Paper elevation={0} onClick={goto(item)}>
+                        <Card>
+                            <CardContent>
+                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                {item.name}
+                                </Typography>
+                                <Typography variant="h5" component="div">
+                                {item?.company?.name}
+                                </Typography>
+                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                {item?.email}
+                                </Typography>
+                                <Typography variant="body2">
+                                well meaning and kindly.
+                                <br />
+                                {'"a benevolent smile"'}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button size="small">Learn More</Button>
+                            </CardActions>
+                        </Card>
+                    </Paper>
+                </Grid>
+            )
+        })
     }
-    useEffect(()=>{
-        getData()
-    },[])
-
-    function goto(item){
-        return()=> {
-            console.log("te",item)
-            history.push(`/${item.slug}`)
-        }
-    }
-
-    let imgs = [himalayas,kilimanjaro,loremipseum,aeneanvulputate,montblanc,northernpakistan,olympusgreece,patagonia]
-
-    const childItems = state.data.map((item,x)=>{
-        return(
-            <Grid item xs={6} sm={4} md={3} key={x}>
-                <Paper elevation={0} onClick={goto(item)}>
-                    <CardMedia
-                        className={classes.img}
-                        component="img"
-                        alt="image01"
-                        image={imgs[x]}
-
-                    />
-                    <Typography gutterBottom  variant='subtitle1' component="div" className={classes.cardTitle}>
-                        {item.title}
-                    </Typography>
-                    <Typography gutterBottom  variant="subtitle2" component="div" className={classes.cardSubs}>
-                        {item.title_long}
-                    </Typography>
-                </Paper>
-            </Grid>
-        )
-    })
 
 
     return (
@@ -268,17 +293,11 @@ function Listing(props) {
             <Box>
                 <Paper elevation={0} className={classes.paperBox}>
                     <Container maxWidth="xl">
-                        <CardMedia
-                            className={classes.logo}
-                            component="img"
-                            alt="logo"
-                            image= {logo}
-                        />
                         <Typography gutterBottom  variant='subtitle1' component="div" className={classes.title}>
-                            Mountains
+                            Teams React
                         </Typography>
                         <Typography gutterBottom  variant="subtitle2" component="div" className={classes.subs}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod ex ut blandit condimentum.
+                           List of teams
                         </Typography>
                     </Container>
                 </Paper>
@@ -289,11 +308,15 @@ function Listing(props) {
                       className={classes.filter}
                 >
                     <Grid item xs={12} sm={8} md={8} >
-                        <TextField id="outlined-basic" placeholder="Search for mountains" variant="outlined" fullWidth
-                               InputProps={{
+                        <TextField id="outlined-basic" placeholder="Search for Teams" variant="outlined" fullWidth
+                                value = {filter}
+                                onChange={d=>searchTeam(d)}
+                                InputProps={{
                                    startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
+                                   endAdornment : <Button onClick={goSearch}>Search</Button>
                                }}
                         />
+                    
                     </Grid>
                 </Grid>
             </Container>
@@ -305,38 +328,12 @@ function Listing(props) {
                     {childItems}
                 </Grid>
             </Container>
-            <Container maxWidth="xl">
-                <Grid container
-                      spacing={4}
-                      className={classes.filter}
-                >
-                    <Grid item xs={12} sm={6} md={9} >
-                        <ButtonGroup variant="outlined" aria-label="outlined button group">
-                            <Button className={classes.pageActive}>1</Button>
-                            <Button className={classes.page}>2</Button>
-                            <Button className={classes.page}>3</Button>
-                            <Button className={classes.page}>...</Button>
-                            <Button className={classes.page}>9</Button>
-                        </ButtonGroup>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={3} >
-                        <Button variant="contained" primary fullWidth className={classes.butt}>Show next</Button>
-                    </Grid>
-                </Grid>
-            </Container>
-            <Box>
+            <Box className={classes.footerSection}>
                 <Paper elevation={0} className={classes.footWrapper}>
                     <Container maxWidth="xl" className={classes.footer}>
-                        <CardMedia
-                            className={classes.footlogo}
-                            component="img"
-                            alt="image01"
-                            image={logo}
-
-                        />
-                        <Typography gutterBottom   variant="subtitle2" className={classes.footnote}>
-                            Front-end developer test page – September 2021
-                        </Typography>
+                                <Typography variant="h5" component="div" className={classes.footnote}>
+                                    Some Footer Here
+                                </Typography>
                     </Container>
                 </Paper>
             </Box>
