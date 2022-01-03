@@ -10,14 +10,15 @@ import {
 } from "react-router-dom";
 
 import Listing from "./Listing";
+import Details from "./component/Details";
 
 export default function Routes(props) {
 
     return (
         <Router>
                 <Switch>
-                    <Route path={`/:topicId`}>
-                        <Topic {...props}/>
+                    <Route path={`/:teamId`}>
+                        <Details {...props}/>
                     </Route>
                     <Route path="/">
                         <Listing {...props}/>
@@ -29,8 +30,3 @@ export default function Routes(props) {
 
 
 
-function Topic(props) {
-
-    let { topicId } = useParams();
-    return <h3>Requested topic ID: {topicId}</h3>;
-}

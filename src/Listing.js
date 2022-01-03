@@ -22,11 +22,11 @@ const useStyles = makeStyles(theme =>({
     },
     paperBox: {
         boxSizing: 'border-box',
-        height:460,
+        height:200,
         width:'100%',
         backgroundColor:'#3852F7 !important',
         borderRadius:'0 !important'    ,
-        paddingTop:63.72,
+        paddingTop:20.72,
         display:'flex',
         flexDirection:'column',
         justifyContent:'flex-start',
@@ -64,7 +64,6 @@ const useStyles = makeStyles(theme =>({
         fontWeight:750,
         fontStyle:'normal',
         letterSpacing: '0em',
-        marginTop:87.57,
         lineHeight: '1 !important',
         [theme.breakpoints.between('md','lg')]: {
             fontSize:70,
@@ -210,8 +209,7 @@ function Listing(props) {
 
     function goto(item){
         return()=> {
-            console.log("te",item)
-            history.push(`/${item.slug}`)
+            history.push(`/${item.id}`)
         }
     }
 
@@ -259,7 +257,7 @@ function Listing(props) {
 
             return(
                 <Grid item xs={6} sm={4} md={3} key={x}>
-                    <Paper elevation={0} onClick={goto(item)}>
+                    <Paper elevation={0}>
                         <Card>
                             <CardContent>
                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -271,14 +269,10 @@ function Listing(props) {
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                                 {item?.email}
                                 </Typography>
-                                <Typography variant="body2">
-                                well meaning and kindly.
-                                <br />
-                                {'"a benevolent smile"'}
-                                </Typography>
+                                
                             </CardContent>
                             <CardActions>
-                                <Button size="small">Learn More</Button>
+                                <Button size="small" onClick={goto(item)}>More Details</Button>
                             </CardActions>
                         </Card>
                     </Paper>
