@@ -261,7 +261,9 @@ function Listing(props) {
             });
     } 
 
-    let  childItems = null;
+    let  childItems = <div style={{height:'50vh'}}>
+                        <p>No records found</p>
+                        </div>;
     if(state.data.length > 0){
     childItems = state.data.map((item,x)=>{
 
