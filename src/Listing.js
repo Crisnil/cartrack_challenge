@@ -14,6 +14,7 @@ import { useHistory } from "react-router-dom";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles(theme =>({
     root:{
@@ -184,9 +185,11 @@ function Listing(props) {
     let history = useHistory();
     const [state,setState]= useState({ data:[], loading:false,queries:`users`});
     const [filter,setFilters]= useState("");
-    
+    const [loading,setLoading]=useState(false);
+
     useEffect (
         ()=>{
+
             fetch(`https://jsonplaceholder.typicode.com/users`
                 ,{
                     headers : {
@@ -214,13 +217,19 @@ function Listing(props) {
     }
 
     function searchTeam (d){
-        console.log(d.target.value)
-
         setFilters(d.target.value);
 
     }
 
+    function handlePress(e){
+        if(e.key === "Enter"){
+            goSearch();
+        }
+    }
+
     function goSearch(){
+
+        setLoading(true)
         let queryString = ``;
 
         if(filter === ""){
@@ -247,6 +256,7 @@ function Listing(props) {
             })
             .then(function(myJson) {
                 console.log(myJson);
+                setLoading(false)
                 setState({data:myJson})
             });
     } 
@@ -305,10 +315,12 @@ function Listing(props) {
                         <TextField id="outlined-basic" placeholder="Search for Teams" variant="outlined" fullWidth
                                 value = {filter}
                                 onChange={d=>searchTeam(d)}
+                                onKeyDown  ={handlePress}
                                 InputProps={{
                                    startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
-                                   endAdornment : <Button onClick={goSearch}>Search</Button>
+                                   endAdornment : loading ?  <CircularProgress /> :<Button onClick={goSearch} color={'primary'} variant={'contained'} >Search</Button>
                                }}
+
                         />
                     
                     </Grid>
